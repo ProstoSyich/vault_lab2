@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vault — админка</title>
+  <style>
+    :root { color-scheme: light dark; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+      background: #f4f5f7;
+      color: #1f2933;
+    }
+    main { max-width: 960px; margin: 0 auto; padding: 2rem 1rem; }
+    h1 { font-size: 1.5rem; margin: 0 0 1.5rem; }
+    .card {
+      background: #fff;
+      border: 1px solid #d9dee5;
+      border-radius: 8px;
+      padding: 1.25rem;
+      margin-bottom: 1.5rem;
+    }
+    label { display: block; margin-bottom: .35rem; font-size: .9rem; color: #52606d; }
+    input[type="email"], input[type="password"], input[type="text"] {
+      width: 100%;
+      padding: .55rem .7rem;
+      border: 1px solid #cbd2d9;
+      border-radius: 6px;
+      font: inherit;
+      margin-bottom: .9rem;
+    }
+    .row { display: flex; gap: .75rem; align-items: center; flex-wrap: wrap; }
+    button {
+      font: inherit;
+      padding: .55rem 1rem;
+      border: 1px solid #1f5fbf;
+      border-radius: 6px;
+      background: #1f5fbf;
+      color: #fff;
+      cursor: pointer;
+    }
+    button.secondary { background: #fff; color: #1f5fbf; }
+    button:disabled { opacity: .6; cursor: default; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { text-align: left; padding: .55rem .4rem; border-bottom: 1px solid #e4e7eb; font-size: .92rem; }
+    th { color: #52606d; font-weight: 600; }
+    .muted { color: #7b8794; font-size: .9rem; }
+    .error { color: #b42318; white-space: pre-wrap; }
+    .hidden { display: none; }
+    .topbar { display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+    .badge {
+      display: inline-block;
+      padding: .1rem .45rem;
+      border-radius: 999px;
+      background: #e8f1fd;
+      color: #1f5fbf;
+      font-size: .75rem;
+    }
+  </style>
+</head>
+<body>
+<main>
+  <h1>Vault — админка</h1>
+
+  <section id="login-view" class="card">
+    <form id="login-form">
+      <label for="login-email">Email</label>
+      <input id="login-email" type="email" autocomplete="username" required>
+      <label for="login-password">Пароль</label>
+      <input id="login-password" type="password" autocomplete="current-password" required>
+      <button type="submit">Войти</button>
+    </form>
+  </section>
+
+  <section id="dashboard-view" class="hidden">
+    <div class="card topbar">
+      <div>
+        <strong id="current-email"></strong>
+        <span id="admin-badge" class="badge hidden">admin</span>
+      </div>
+      <button id="logout-button" class="secondary" type="button">Выйти</button>
+    </div>
+
+    <div class="card">
+      <div class="row" style="justify-content: space-between; margin-bottom: 1rem;">
+        <h2 style="font-size: 1.1rem; margin: 0;">OAuth-клиенты</h2>
+        <button id="create-client-button" type="button">Создать клиента</button>
+      </div>
+
+      <form id="create-client-form" class="hidden" style="margin-bottom: 1.25rem;">
+        <label for="client-name">Название приложения</label>
+        <input id="client-name" type="text" required>
+        <div class="row" style="margin-bottom: .9rem;">
+          <label style="margin: 0;">
+            <input id="client-confidential" type="checkbox">
+            Конфиденциальный клиент
+          </label>
+        </div>
+        <div class="row">
+          <button type="submit">Сохранить</button>
+          <button id="cancel-client-button" type="button" class="secondary">Отмена</button>
+        </div>
+      </form>
+
+      <table>
+        <thead>
+        <tr>
+          <th>Client ID</th>
+          <th>Название</th>
+          <th>Тип</th>
+          <th>Создан</th>
+        </tr>
+        </thead>
+        <tbody id="clients-body"></tbody>
+      </table>
+      <p id="clients-empty" class="muted hidden">Клиентов пока нет.</p>
+    </div>
+  </section>
+
+  <p id="error-box" class="error" role="alert"></p>
+</main>
+<script src="app.js"></script>
+</body>
+</html>
